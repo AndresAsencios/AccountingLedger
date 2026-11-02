@@ -1,17 +1,22 @@
 package com.pluralsight;
-import java.sql.SQLOutput;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 
 public class AccountingLedger {
 
     public static void main(String[] args) {
         Scanner read = new Scanner(System.in);
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        loadTransactions(transactions);
         displayHomeMenu(read);
     }
 
-    public static void displayHomeMenu(Scanner read) {
+    private static void displayHomeMenu(Scanner read) {
         String choice = "";
 
         while (!choice.equalsIgnoreCase("X")) {
@@ -30,13 +35,14 @@ public class AccountingLedger {
                 case "L" -> displayLedgerMenu(read);
                 case "X" -> System.out.println("Close, Goodbye!");
                 default -> System.out.println("Invalid Input");
-    }
             }
         }
-    public static void displayLedgerMenu(Scanner read){
+    }
+
+    private static void displayLedgerMenu(Scanner read) {
         String choice = "";
 
-        while(!choice.equalsIgnoreCase("H")) {
+        while (!choice.equalsIgnoreCase("H")) {
             System.out.println("===+ Ledger Menu +===");
             System.out.println("A) All transactions");
             System.out.println("D) Deposits");
@@ -58,9 +64,10 @@ public class AccountingLedger {
 
         }
     }
-    public static void displayReportsMenu(Scanner read) {
-        String choice =  "";
-        while(!choice.equals("0")) {
+
+    private static void displayReportsMenu(Scanner read) {
+        String choice = "";
+        while (!choice.equals("0")) {
             System.out.println("=== Reports Menu ===");
             System.out.println("1) Month to Date");
             System.out.println("2) Previous Month");
@@ -84,5 +91,44 @@ public class AccountingLedger {
         }
 //        System.out.println("=== Reports Menu ===");
     }
-}
 
+    private static void loadTransactions(ArrayList<Transaction> transactions) {
+
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader("src/main/resources/transactions.csv"))) {
+
+            String line;
+            reader.readLine(); // Skip CSV header
+
+            while ((line = reader.readLine()) != null) {
+
+                String[] fields = line.split("\\|");
+
+                if (fields.length != 5) {
+                    System.out.println("Skipping invalid transaction: " + line);
+                    continue;
+                }
+
+                try {
+                    double amount = Double.parseDouble(fields[4]);
+
+                    Transaction transaction = new Transaction(
+                            fields[0],
+                            fields[1],
+                            fields[2],
+                            fields[3],
+                            amount
+                    );
+
+                    transactions.add(transaction);
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid amount: " + fields[4]);
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Error reading transactions: " + e.getMessage());
+        }
+    }
+}
