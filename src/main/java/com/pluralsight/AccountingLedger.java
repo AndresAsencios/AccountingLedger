@@ -31,7 +31,6 @@ public class AccountingLedger {
                 case "X" -> System.out.println("Close, Goodbye!");
                 default -> System.out.println("Invalid Input");
     }
-//      public static void         displayReportsMenu() {}
             }
         }
     public static void displayLedgerMenu(Scanner read){
@@ -52,13 +51,38 @@ public class AccountingLedger {
                 case "A" -> System.out.println("All transactions");
                 case "D" -> System.out.println("Deposits");
                 case "P" -> System.out.println("Payments");
-                case "R" -> System.out.println("Reports");
+                case "R" -> displayReportsMenu(read);
                 case "H" -> System.out.println("Return Home...");
                 default -> System.out.println("Invalid Input");
             }
 
         }
+    }
+    public static void displayReportsMenu(Scanner read) {
+        String choice =  "";
+        while(!choice.equals("0")) {
+            System.out.println("=== Reports Menu ===");
+            System.out.println("1) Month to Date");
+            System.out.println("2) Previous Month");
+            System.out.println("3) Year to Date");
+            System.out.println("4) Previous Year");
+            System.out.println("5) Search by Vendor");
+            System.out.println("0) Back");
 
+            System.out.print("Enter your choice: ");
+            choice = read.nextLine().trim();
+
+            switch (choice) {
+                case "1" -> System.out.println("Month to Date");
+                case "2" -> System.out.println("Previous Month");
+                case "3" -> System.out.println("Year to Date");
+                case "4" -> System.out.println("Previous Year");
+                case "5" -> System.out.println("Search by Vendor");
+                case "0" -> System.out.println("Returning to Ledger...");
+                default -> System.out.println("Invalid Input");
+            }
+        }
+//        System.out.println("=== Reports Menu ===");
     }
-    }
+}
 
