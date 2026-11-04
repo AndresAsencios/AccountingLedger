@@ -1,5 +1,7 @@
 package com.pluralsight;
+
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -94,15 +96,14 @@ public class AccountingLedger {
                         }
                     }
                 }
-                case "R" -> displayReportsMenu(read);
+                case "R" -> displayReportsMenu(read, transactions);
                 case "H" -> System.out.println("Return Home...");
                 default -> System.out.println("Invalid Input");
             }
-
         }
     }
 
-    private static void displayReportsMenu(Scanner read) {
+    private static void displayReportsMenu(Scanner read, ArrayList<Transaction> transactions) {
         String choice = "";
         while (!choice.equals("0")) {
             System.out.println("=== Reports Menu ===");
@@ -117,11 +118,11 @@ public class AccountingLedger {
             choice = read.nextLine().trim();
 
             switch (choice) {
-                case "1" -> System.out.println("Month to Date");
+                case "1" -> System.out.println(transactions);
                 case "2" -> System.out.println("Previous Month");
                 case "3" -> System.out.println("Year to Date");
                 case "4" -> System.out.println("Previous Year");
-                case "5" -> System.out.println("Search by Vendor");
+                case "5" -> searchByVendor(read, transactions);
                 case "0" -> System.out.println("Returning to Ledger...");
                 default -> System.out.println("Invalid Input");
             }
@@ -183,7 +184,19 @@ public class AccountingLedger {
         System.out.print("Enter deposit amount: ");
         String amountInput = read.nextLine();
 
-        double amount = Double.parseDouble(amountInput);
+        double amount;
+
+        try {
+            amount = Double.parseDouble(amountInput);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid amount! Please enter a number.");
+            return;
+        }
+
+        if(!Double.isFinite(amount) || amount <= 0) {
+            System.out.println("Deposit must be a valid positive number!");
+            return;
+        }
 
         LocalDateTime now = LocalDateTime.now();
 
@@ -269,4 +282,42 @@ public class AccountingLedger {
             System.out.println("Payment saved successfully!");
         }
     }
+    private static void searchByVendor( Scanner read, ArrayList<Transaction> transactions) {
+        System.out.println("=== Search by Vendor ===");
+
+        System.out.print("Enter vendor name: ");
+        String vendor = read.nextLine().trim();
+
+        for (Transaction transaction : transactions) {
+
+            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+                System.out.println(transaction);
+            }
+        }
+        boolean found = false;
+
+        for (Transaction transaction : transactions) {
+
+            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
+                System.out.println(transaction);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No transactions found for: " + vendor);
+        }
+    }
+    private static void monthToDate(ArrayList<Transaction> transactions) {
+
+        LocalDate today = LocalDate.now();
+
+        System.out.println("=== Month to Date ===");
+        System.out.println("Today's date: " + today);
+
+        LocalDate startOfMonth = today.withDayOfMonth(1);
+        System.out.println("Start Date: " + startOfMonth);
+        System.out.println("End Date: " + today);
+
+    }
+
 }
