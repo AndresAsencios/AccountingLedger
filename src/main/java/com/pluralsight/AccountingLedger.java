@@ -239,7 +239,18 @@ public class AccountingLedger {
         System.out.print("Enter payment amount: ");
         String amountInput = read.nextLine();
 
-        double amount = -Double.parseDouble(amountInput);
+        double amount;
+
+        try {
+            amount = Double.parseDouble(amountInput);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid amount! Please enter a number.");
+            return;
+        }
+        if (!Double.isFinite(amount) || amount <= 0) {
+            System.out.println("Amount must be a valid positive number!");
+        }
+        amount = -amount;
 
         LocalDateTime now = LocalDateTime.now();
 
