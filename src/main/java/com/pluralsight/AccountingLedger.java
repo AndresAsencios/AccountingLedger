@@ -176,10 +176,20 @@ public class AccountingLedger {
         System.out.println("=== Add Deposit ===");
 
         System.out.print("Enter description: ");
-        String description = read.nextLine();
+        String description = read.nextLine().trim();
+        // description validation
+        if(description.isEmpty() || description.contains("|")) {
+            System.out.println("Invalid description");
+            return;
+        }
 
-        System.out.print("Enter vendor: ");
-        String vendor = read.nextLine();
+        System.out.print("Enter Vendor: ");
+        String vendor = read.nextLine().trim();
+        // vendor validation
+        if(vendor.isEmpty() || vendor.contains("|")) {
+            System.out.println("Invalid vendor");
+            return;
+        }
 
         System.out.print("Enter deposit amount: ");
         String amountInput = read.nextLine();
