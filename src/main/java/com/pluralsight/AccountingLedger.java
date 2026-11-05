@@ -118,8 +118,8 @@ public class AccountingLedger {
             choice = read.nextLine().trim();
 
             switch (choice) {
-                case "1" -> System.out.println(transactions);
-                case "2" -> System.out.println("Previous Month");
+                case "1" -> monthToDate(transactions);
+                case "2" -> previousMonth(transactions);
                 case "3" -> System.out.println("Year to Date");
                 case "4" -> System.out.println("Previous Year");
                 case "5" -> searchByVendor(read, transactions);
@@ -318,6 +318,36 @@ public class AccountingLedger {
         System.out.println("Start Date: " + startOfMonth);
         System.out.println("End Date: " + today);
 
-    }
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
 
+            if (!transactionDate.isBefore(startOfMonth) && !transactionDate.isAfter(today)) {
+
+                System.out.println(transaction);
+            }
+        }
+    }
+    private static void previousMonth( ArrayList<Transaction> transactions) {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate startOfPreviousMonth = today.minusMonths(1).withDayOfMonth(1);
+
+        LocalDate endOfPreviousMonth = today.withDayOfMonth(1).minusDays(1);
+
+        System.out.println("=== Previous Month ===");
+        System.out.println("Start Date:" + startOfPreviousMonth);
+        System.out.println("End Date: " + endOfPreviousMonth);
+
+        for (Transaction transaction : transactions) {
+
+            LocalDate transactionDate =
+                    LocalDate.parse(transaction.getDate());
+
+            if (!transactionDate.isBefore(startOfPreviousMonth) && !transactionDate.isAfter(endOfPreviousMonth)) {
+
+                System.out.println(transaction);
+            }
+        }
+    }
 }
