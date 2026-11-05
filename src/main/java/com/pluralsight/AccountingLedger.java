@@ -244,10 +244,20 @@ public class AccountingLedger {
         System.out.println("=== Make Payment ===");
 
         System.out.print("Enter description: ");
-        String description = read.nextLine();
+        String description = read.nextLine().trim();
+        // description validation
+        if(description.isEmpty() || description.contains("|")) {
+            System.out.println("Invalid description");
+            return;
+        }
 
         System.out.print("Enter Vendor: ");
-        String vendor = read.nextLine();
+        String vendor = read.nextLine().trim();
+        // vendor validation
+        if(vendor.isEmpty() || vendor.contains("|")) {
+            System.out.println("Invalid vendor");
+            return;
+        }
 
         System.out.print("Enter payment amount: ");
         String amountInput = read.nextLine();
@@ -262,6 +272,7 @@ public class AccountingLedger {
         }
         if (!Double.isFinite(amount) || amount <= 0) {
             System.out.println("Amount must be a valid positive number!");
+            return;
         }
         amount = -amount;
 
@@ -288,12 +299,6 @@ public class AccountingLedger {
         System.out.print("Enter vendor name: ");
         String vendor = read.nextLine().trim();
 
-        for (Transaction transaction : transactions) {
-
-            if (transaction.getVendor().equalsIgnoreCase(vendor)) {
-                System.out.println(transaction);
-            }
-        }
         boolean found = false;
 
         for (Transaction transaction : transactions) {
