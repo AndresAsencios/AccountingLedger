@@ -120,8 +120,8 @@ public class AccountingLedger {
             switch (choice) {
                 case "1" -> monthToDate(transactions);
                 case "2" -> previousMonth(transactions);
-                case "3" -> System.out.println("Year to Date");
-                case "4" -> System.out.println("Previous Year");
+                case "3" -> yearToDate(transactions);
+                case "4" -> previousYear(transactions);
                 case "5" -> searchByVendor(read, transactions);
                 case "0" -> System.out.println("Returning to Ledger...");
                 default -> System.out.println("Invalid Input");
@@ -336,7 +336,7 @@ public class AccountingLedger {
         LocalDate endOfPreviousMonth = today.withDayOfMonth(1).minusDays(1);
 
         System.out.println("=== Previous Month ===");
-        System.out.println("Start Date:" + startOfPreviousMonth);
+        System.out.println("Start Date: " + startOfPreviousMonth);
         System.out.println("End Date: " + endOfPreviousMonth);
 
         for (Transaction transaction : transactions) {
@@ -348,6 +348,53 @@ public class AccountingLedger {
 
                 System.out.println(transaction);
             }
+        }
+    }
+    private static void yearToDate (ArrayList<Transaction> transactions) {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate startOfYear = today.withDayOfYear(1);
+
+        System.out.println("=== Year to Date ===");
+        System.out.println("Start Date: " + startOfYear);
+        System.out.println("End Date: " + today);
+
+        for (Transaction transaction : transactions) {
+
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+
+            if (!transactionDate.isBefore(startOfYear) && !transactionDate.isAfter(today)) {
+                System.out.println(transaction);
+            }
+        }
+    }
+    private static void previousYear (ArrayList<Transaction> transactions) {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate startOfPreviousYear = today.minusYears(1).withDayOfYear(1);
+
+        LocalDate endOfPreviousYear = today.withDayOfYear(1).minusDays(1);
+
+        System.out.println("=== Previous Year ===");
+        System.out.println("Start Date: " + startOfPreviousYear);
+        System.out.println("End Date: " + endOfPreviousYear);
+
+        boolean found = false;
+
+        for (Transaction transaction : transactions) {
+
+            LocalDate transactionDate = LocalDate.parse(transaction.getDate());
+
+            if (!transactionDate.isBefore(startOfPreviousYear) && !transactionDate.isAfter(endOfPreviousYear)) {
+
+                System.out.println(transaction);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No transactions found for the previous year.");
         }
     }
 }
