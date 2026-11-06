@@ -55,6 +55,7 @@ public class Transaction {
         this.amount = amount;
     }
 
+    //Debugging and testing
     @Override
     public String toString() {
         return "Transaction{" +
@@ -65,7 +66,7 @@ public class Transaction {
                 ", amount=" + amount +
                 '}';
     }
-
+// reformated String for cleaner display
     public String toFormattedString() {
         return String.format(
                 "%-12s %-8s %-25.25s %-20.20s %+,12.2f",

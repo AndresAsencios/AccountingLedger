@@ -41,21 +41,29 @@ public class LedgerManager {
 
                 case "D" -> {
                     System.out.println("=== Deposits ===");
+                    System.out.printf("%-12s %-8s %-25s %-20s %12s%n","DATE","TIME","DESCRIPTION","VENDOR","AMOUNT");
+
+                    System.out.println("-".repeat(85));
 
                     for (Transaction transaction : transactions) {
 
+
+
                         if (transaction.getAmount() > 0) {
-                            System.out.println(transaction);
+                            System.out.println(transaction.toFormattedString());
                         }
                     }
                 }
                 case "P" -> {
                     System.out.println("=== Payments ===");
+                    System.out.printf("%-12s %-8s %-25s %-20s %12s%n","DATE","TIME","DESCRIPTION","VENDOR","AMOUNT");
+
+                    System.out.println("-".repeat(85));
 
                     for (Transaction transaction : transactions) {
 
                         if (transaction.getAmount() < 0) {
-                            System.out.println(transaction);
+                            System.out.println(transaction.toFormattedString());
                         }
                     }
                 }
