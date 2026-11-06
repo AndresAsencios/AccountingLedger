@@ -29,9 +29,13 @@ public class LedgerManager {
 
             switch (choice.toUpperCase()) {
                 case "A" -> {
-                    System.out.println("All transactions");
+                    System.out.println("🌿 === All Nursery Transactions ===");
+
+                    System.out.printf("%-12s %-8s %-25s %-20s %12s%n","DATE","TIME","DESCRIPTION","VENDOR","AMOUNT");
+
+                    System.out.println("-".repeat(85));
                     for (Transaction transaction : transactions) {
-                        System.out.println(transaction);
+                        System.out.println(transaction.toFormattedString());
                     }
                 }
 

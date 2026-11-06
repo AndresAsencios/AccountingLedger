@@ -65,4 +65,15 @@ public class Transaction {
                 ", amount=" + amount +
                 '}';
     }
+
+    public String toFormattedString() {
+        return String.format(
+                "%-12s %-8s %-25.25s %-20.20s %+,12.2f",
+                date,
+                time,
+                description,
+                vendor,
+                amount
+        );
+    }
 }

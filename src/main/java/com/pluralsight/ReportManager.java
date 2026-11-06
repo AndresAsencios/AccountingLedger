@@ -8,13 +8,17 @@ public class ReportManager {
     public static void displayReportsMenu(Scanner read, ArrayList<Transaction> transactions) {
         String choice = "";
         while (!choice.equals("0")) {
-            System.out.println("=== Reports Menu ===");
-            System.out.println("1) Month to Date");
-            System.out.println("2) Previous Month");
-            System.out.println("3) Year to Date");
-            System.out.println("4) Previous Year");
-            System.out.println("5) Search by Vendor");
-            System.out.println("0) Back");
+            System.out.println();
+            System.out.println("======================================");
+            System.out.println("     🌿 NURSERY FINANCIAL REPORTS");
+            System.out.println("======================================");
+            System.out.println("1) 📅 Month-to-Date");
+            System.out.println("2) 📆 Previous Month");
+            System.out.println("3) 📊 Year-to-Date");
+            System.out.println("4) 📈 Previous Year");
+            System.out.println("5) 🔎 Search by Customer / Vendor");
+            System.out.println("0) ↩ Return to Nursery Ledger");
+            System.out.println("======================================");
 
             System.out.print("Enter your choice: ");
             choice = read.nextLine().trim();
@@ -33,7 +37,7 @@ public class ReportManager {
     private static void searchByVendor( Scanner read, ArrayList<Transaction> transactions) {
         System.out.println("=== Search by Vendor ===");
 
-        System.out.print("Enter vendor name: ");
+        System.out.print("Enter customer, sales platform, or supplier: ");
         String vendor = read.nextLine().trim();
 
         boolean found = false;
@@ -53,7 +57,7 @@ public class ReportManager {
 
         LocalDate today = LocalDate.now();
 
-        System.out.println("=== Month to Date ===");
+        System.out.println("🌱 === Nursery Sales & Expenses — Month-to-Date ===");
         System.out.println("Today's date: " + today);
 
         LocalDate startOfMonth = today.withDayOfMonth(1);
