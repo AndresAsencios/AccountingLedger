@@ -11,12 +11,12 @@ public class LedgerManager {
         String choice = "";
 
         while (!choice.equalsIgnoreCase("H")) {
-            System.out.println("===+ Ledger Menu +===");
-            System.out.println("A) All transactions");
-            System.out.println("D) Deposits");
-            System.out.println("P) Payments");
-            System.out.println("R) Reports");
-            System.out.println("H) Home");
+            System.out.println("🌿 === Nursery Ledger ===");
+            System.out.println("A) All Transactions");
+            System.out.println("D) Plant Sales / Deposits");
+            System.out.println("P) Nursery Expenses / Payments");
+            System.out.println("R) Financial Reports");
+            System.out.println("H) Return Home");
 
             System.out.print("Enter your choice: ");
             choice = read.nextLine().trim();

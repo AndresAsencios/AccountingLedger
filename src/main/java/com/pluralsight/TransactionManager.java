@@ -11,9 +11,9 @@ public class TransactionManager {
             Scanner read,
             ArrayList<Transaction> transactions) {
 
-        System.out.println("=== Add Deposit ===");
+        System.out.println("🌿 === Record Plant Sale ===");
 
-        System.out.print("Enter description: ");
+        System.out.print("Enter plant or sale description: ");
         String description = read.nextLine().trim();
         // description validation
         if(description.isEmpty() || description.contains("|")) {
@@ -21,15 +21,15 @@ public class TransactionManager {
             return;
         }
 
-        System.out.print("Enter Vendor: ");
+        System.out.print("Enter customer or sales platform: ");
         String vendor = read.nextLine().trim();
         // vendor validation
         if(vendor.isEmpty() || vendor.contains("|")) {
-            System.out.println("Invalid vendor");
+            System.out.println("Invalid input");
             return;
         }
 
-        System.out.print("Enter deposit amount: ");
+        System.out.print("Enter sale amount: $");
         String amountInput = read.nextLine();
 
         double amount;
@@ -68,9 +68,9 @@ public class TransactionManager {
             Scanner read,
             ArrayList<Transaction> transactions) {
 
-        System.out.println("=== Make Payment ===");
+        System.out.println("🪴 === Record Nursery Expense ===");
 
-        System.out.print("Enter description: ");
+        System.out.print("Enter expense description: ");
         String description = read.nextLine().trim();
         // description validation
         if(description.isEmpty() || description.contains("|")) {
@@ -78,7 +78,7 @@ public class TransactionManager {
             return;
         }
 
-        System.out.print("Enter Vendor: ");
+        System.out.print("Enter supplier or vendor: ");
         String vendor = read.nextLine().trim();
         // vendor validation
         if(vendor.isEmpty() || vendor.contains("|")) {
@@ -86,7 +86,7 @@ public class TransactionManager {
             return;
         }
 
-        System.out.print("Enter payment amount: ");
+        System.out.print("Enter expense amount: $");
         String amountInput = read.nextLine();
 
         double amount;

@@ -1,16 +1,7 @@
 package com.pluralsight;
 
-import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Comparator;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.util.Scanner;
 
 
 public class AccountingLedger {
