@@ -1,68 +1,124 @@
 package com.pluralsight;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class TransactionManager {
+    public static void addDeposit(
+            Scanner read,
+            ArrayList<Transaction> transactions) {
 
-    public static void loadTransactions(ArrayList<Transaction> transactions) {
+        System.out.println("=== Add Deposit ===");
 
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader("src/main/resources/transactions.csv"))) {
+        System.out.print("Enter description: ");
+        String description = read.nextLine().trim();
+        // description validation
+        if(description.isEmpty() || description.contains("|")) {
+            System.out.println("Invalid description");
+            return;
+        }
 
-            String line;
-            reader.readLine(); // Skip CSV header
+        System.out.print("Enter Vendor: ");
+        String vendor = read.nextLine().trim();
+        // vendor validation
+        if(vendor.isEmpty() || vendor.contains("|")) {
+            System.out.println("Invalid vendor");
+            return;
+        }
 
-            while ((line = reader.readLine()) != null) {
+        System.out.print("Enter deposit amount: ");
+        String amountInput = read.nextLine();
 
-                String[] fields = line.split("\\|");
+        double amount;
 
-                if (fields.length != 5) {
-                    System.out.println("Skipping invalid transaction: " + line);
-                    continue;
-                }
+        try {
+            amount = Double.parseDouble(amountInput);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid amount! Please enter a number.");
+            return;
+        }
 
-                try {
-                    double amount = Double.parseDouble(fields[4]);
+        if(!Double.isFinite(amount) || amount <= 0) {
+            System.out.println("Deposit must be a valid positive number!");
+            return;
+        }
 
-                    Transaction transaction = new Transaction(
-                            fields[0],
-                            fields[1],
-                            fields[2],
-                            fields[3],
-                            amount
-                    );
+        LocalDateTime now = LocalDateTime.now();
 
-                    transactions.add(transaction);
+        String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid amount: " + fields[4]);
-                }
-            }
+        Transaction transaction = new Transaction(
+                date,
+                time,
+                description,
+                vendor,
+                amount
+        );
 
-        } catch (IOException e) {
-            System.out.println("Error reading transactions: " + e.getMessage());
+        if (TransactionFileManager.saveTransaction(transaction)) {
+            transactions.add(transaction);
+            System.out.println("Deposit saved successfully!");
         }
     }
-    public static boolean saveTransaction(Transaction transaction) {
+    public static void makePayment(
+            Scanner read,
+            ArrayList<Transaction> transactions) {
 
-        try (BufferedWriter writer = new BufferedWriter(
-                new FileWriter("src/main/resources/transactions.csv", true))) {
+        System.out.println("=== Make Payment ===");
 
-            String csvLine = transaction.getDate() + "|" +
-                    transaction.getTime() + "|" +
-                    transaction.getDescription() + "|" +
-                    transaction.getVendor() + "|" +
-                    transaction.getAmount();
+        System.out.print("Enter description: ");
+        String description = read.nextLine().trim();
+        // description validation
+        if(description.isEmpty() || description.contains("|")) {
+            System.out.println("Invalid description");
+            return;
+        }
 
-            writer.write(csvLine);
-            writer.newLine();
+        System.out.print("Enter Vendor: ");
+        String vendor = read.nextLine().trim();
+        // vendor validation
+        if(vendor.isEmpty() || vendor.contains("|")) {
+            System.out.println("Invalid vendor");
+            return;
+        }
 
-            return true;
+        System.out.print("Enter payment amount: ");
+        String amountInput = read.nextLine();
 
-        } catch (IOException e) {
-            System.out.println("Error saving transaction: " + e.getMessage());
-            return false;
+        double amount;
+
+        try {
+            amount = Double.parseDouble(amountInput);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid amount! Please enter a number.");
+            return;
+        }
+        if (!Double.isFinite(amount) || amount <= 0) {
+            System.out.println("Amount must be a valid positive number!");
+            return;
+        }
+        amount = -amount;
+
+        LocalDateTime now = LocalDateTime.now();
+
+        String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        Transaction transaction = new Transaction(
+                date,
+                time,
+                description,
+                vendor,
+                amount
+        );
+        if (TransactionFileManager.saveTransaction(transaction)) {
+            transactions.add(transaction);
+            System.out.println("Payment saved successfully!");
         }
     }
+
 }
